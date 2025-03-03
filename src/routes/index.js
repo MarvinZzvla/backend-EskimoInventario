@@ -2,6 +2,7 @@ import { Router } from "express";
 import ventasRoutes from "./ventas.routes.js";
 import productsRoutes from "./products.routes.js";
 import empleadosRoutes from "./empleados.routes.js";
+import comprasRoutes from "./compras.routes.js";
 import inventarioEmpleadoRoutes from "./inventarioempleado.routes.js";
 import userRoutes from "./user.routes.js";
 import User from "../models/User.js";
@@ -34,6 +35,7 @@ router.post("/login", async (req, res) => {
 // Registrar rutas manualmente
 router.use("/ventas", ventasRoutes); // Ruta base para ventas
 router.use("/products", productsRoutes); // Ruta base para productos
+router.use("/compras", comprasRoutes); // Ruta base para compras
 router.use("/empleados", empleadosRoutes); // Ruta base para empleados
 router.use("/inventarioempleado", inventarioEmpleadoRoutes); // Ruta base para inventario de empleados
 router.use("/users", userRoutes); // Ruta base para usuarios

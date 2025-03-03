@@ -1,7 +1,11 @@
-import sequelize from "../database/database.js";
 import { DataTypes } from "sequelize";
+import sequelize from "../database/database.js";
 
-const Productos = sequelize.define("Productos", {
+const Compras = sequelize.define("Compras", {
+  productoId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   producto: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -18,6 +22,9 @@ const Productos = sequelize.define("Productos", {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+  responsable: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
-
-export default Productos;
+export default Compras;
