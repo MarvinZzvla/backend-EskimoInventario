@@ -1,5 +1,6 @@
 import express from "express";
 import Compras from "../models/Compras.js";
+import Productos from "../models/Productos.js";
 import { Op } from "sequelize";
 
 const router = express.Router();
@@ -12,7 +13,10 @@ router.post("/", async (req, res) => {
     const compras = await Compras.findAll({
       where: {
         createdAt: {
-          [Op.between]: [new Date(initialDate), new Date(finalDate)],
+          [Op.between]: [
+            new Date(initialDate),
+            new Date(finalDate).setHours(23, 59, 59, 999),
+          ],
         },
       },
     });
@@ -34,6 +38,17 @@ router.post("/create", async (req, res) => {
       responsable,
     };
     const compra = await Compras.create(compraBody);
+    //Actualizar la cantidad del producto existente en la base de datos
+    const productoUpdate = await Productos.findByPk(productoId);
+    productoUpdate.cantidad += cantidad;
+    await Productos.update(
+      {
+        cantidad: productoUpdate.cantidad,
+        precio: precio,
+        precioVenta: precioVenta,
+      },
+      { where: { id: productoId } }
+    );
     res.status(201).json(compra);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -56,11 +71,26 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
+    const { productoId, cantidad } = await Compras.findByPk(id);
+    await restoreProduct(productoId, cantidad);
     await Compras.destroy({ where: { id: id } });
     res.status(200).json({ message: "Compra eliminada" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
+
+const restoreProduct = async (productoId, cantidad) => {
+  const productoUpdate = await Productos.findByPk(productoId);
+
+  Productos.update(
+    {
+      cantidad: (productoUpdate.cantidad += cantidad * -1),
+    },
+    {
+      where: { id: productoId },
+    }
+  );
+};
 
 export default router;

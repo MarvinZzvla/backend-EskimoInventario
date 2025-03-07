@@ -2,12 +2,20 @@ import { DataTypes } from "sequelize";
 import sequelize from "../database/database.js";
 
 const InventarioEmpleado = sequelize.define("Inventario", {
-  idEmpleado: {
+  empleadoId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  idProducto: {
+  empleado: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  productoId: {
     type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  producto: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   cantidad: {
