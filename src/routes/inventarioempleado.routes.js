@@ -1,6 +1,7 @@
 import express from "express";
 import InventarioEmpleado from "../models/InventarioEmpleado.js";
 import Productos from "../models/Productos.js";
+import sequelize from "../database/database.js";
 import { Op } from "sequelize";
 
 const router = express.Router();
@@ -35,6 +36,22 @@ router.get("/", async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
     res.status(200).json(inventarios);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+// Obtener todos los inventarios de empleados con cantidad mayor a 0
+router.get("/:id", async (req, res) => {
+  try {
+    const empleadoId = req.params.id;
+    const query = `
+    SELECT i.id, i.producto, SUM(i.cantidad) as cantidad 
+    FROM Inventarios i 
+    WHERE i.empleadoId = ${empleadoId}
+    GROUP BY i.productoId  
+    `;
+    const [results, metadata] = await sequelize.query(query);
+    res.status(200).json(results);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
