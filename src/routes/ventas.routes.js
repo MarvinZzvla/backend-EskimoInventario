@@ -38,6 +38,7 @@ router.get("/", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
 //Obtener todas las ventas
 router.get("/reporte", async (req, res) => {
   try {
@@ -51,6 +52,25 @@ router.get("/reporte", async (req, res) => {
     `;
     const ventas = await Ventas.sequelize.query(query, {
       replacements: { startDate, endDate },
+      type: Ventas.sequelize.QueryTypes.SELECT,
+    });
+    res.status(200).json(ventas);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+//Obtener todas las ventas por empleado
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { startDate, endDate } = req.query;
+    const query = `
+      SELECT v.id, v.producto, v.cantidad, (v.precioVenta * v.cantidad) as totalAmount, v.createdAt as saleDate 
+      FROM Ventas v 
+      WHERE DATE(v.createdAt) BETWEEN :startDate AND :endDate AND v.empleadoId = :id
+    `;
+    const ventas = await Ventas.sequelize.query(query, {
+      replacements: { startDate, endDate, id },
       type: Ventas.sequelize.QueryTypes.SELECT,
     });
     res.status(200).json(ventas);
