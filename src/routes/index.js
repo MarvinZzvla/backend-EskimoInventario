@@ -5,6 +5,7 @@ import empleadosRoutes from "./empleados.routes.js";
 import comprasRoutes from "./compras.routes.js";
 import inventarioEmpleadoRoutes from "./inventarioempleado.routes.js";
 import userRoutes from "./user.routes.js";
+import billingRoutes from "./billings.routes.js";
 import User from "../models/User.js";
 import { comparePassword } from "../utils/encrypt.js";
 import jwt from "jsonwebtoken";
@@ -39,6 +40,7 @@ router.use("/compras", comprasRoutes); // Ruta base para compras
 router.use("/empleados", empleadosRoutes); // Ruta base para empleados
 router.use("/inventarioempleado", inventarioEmpleadoRoutes); // Ruta base para inventario de empleados
 router.use("/users", userRoutes); // Ruta base para usuarios
+router.use("/billings", billingRoutes); // Ruta base para usuarios
 //router.use('/products', productRoutes); // Ruta base para productos
 
 export default router;

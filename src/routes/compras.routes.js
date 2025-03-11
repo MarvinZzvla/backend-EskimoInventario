@@ -9,7 +9,6 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const { initialDate, finalDate } = req.body;
-    console.log(req.body);
     const compras = await Compras.findAll({
       where: {
         createdAt: {
