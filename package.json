@@ -9,6 +9,12 @@
     "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "pkg": {
+    "assets": [
+      "src/**/*",
+      "node_modules/**/*"
+    ]
+  },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "body-parser": "^1.20.3",
