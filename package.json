@@ -2,18 +2,15 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/main.js",
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
+    "electron": "electron .",
     "dev": "nodemon src/index.js",
+    "build": "electron-builder",
+    "dist": "electron-builder --dir",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "pkg": {
-    "assets": [
-      "src/**/*",
-      "node_modules/**/*"
-    ]
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -27,7 +24,27 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "electron": "^35.0.1",
+    "electron-builder": "^25.1.8",
     "nodemon": "^3.1.9"
+  },
+  "build": {
+    "appId": "com.vendetta.Agencia",
+    "productName": "Mi Agencia",
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "main.js",
+      "src/**/*"
+    ],
+    "directories": {
+      "output": "build"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "asar": false
   },
   "keywords": [],
   "author": "",

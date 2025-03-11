@@ -27,12 +27,8 @@ const getLocalIP = () => {
 
 const LOCAL_IP = getLocalIP();
 
-// Obtener __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-//console.log(path.join(__dirname, "../dist"));
-// Servir la carpeta 'dist' de Vite como estático
-app.use(express.static(path.join(__dirname, "../dist")));
 
 // Middleware
 app.use(
@@ -46,9 +42,11 @@ app.use(cookieParser());
 
 // Rutas
 app.use("/api", routes);
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist", "index.html"));
-});
+
+// app.use(express.static(path.join(__dirname, "../dist")));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../dist", "index.html"));
+// });
 // Sincroniza la base de datos y levanta el servidor
 sequelize
   .sync()
